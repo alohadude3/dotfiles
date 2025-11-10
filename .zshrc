@@ -1,6 +1,6 @@
 # Aliases
 alias ls='lsd'
-alias ll='ls -lA'
+alias ll='ls -la'
 alias cd='z'
 
 # Required by Zoxide

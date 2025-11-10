@@ -4,7 +4,7 @@
 # lsd
 Set-Alias -Name ls -Value lsd -Option AllScope
 function lsd_long {
-	lsd -lA @args
+	lsd -la @args
 }
 Set-Alias -Name ll -Value lsd_long -Option AllScope
 
