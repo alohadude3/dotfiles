@@ -4,5 +4,6 @@
 !.gitignore
 !.vimrc
 !.bashrc
+!.inputrc
 !.ps1
 !.zshrc

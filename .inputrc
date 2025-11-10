@@ -1,0 +1,2 @@
+# Stop windows terminal from flashing
+set bell-style none
