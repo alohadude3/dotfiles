@@ -8,6 +8,7 @@ config.default_prog = { home_directory .. '/scoop/shims/bash.exe' }
 
 end
 
+config.automatically_reload_config = true
 config.color_scheme = 'One Dark (Gogh)'
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 0.8
