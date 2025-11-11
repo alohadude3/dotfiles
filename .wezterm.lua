@@ -10,14 +10,13 @@ end
 
 config.automatically_reload_config = true
 config.color_scheme = 'One Dark (Gogh)'
---config.color_scheme = 'MaterialDark'
 config.window_close_confirmation = "NeverPrompt"
 config.window_background_opacity = 0.9
 config.win32_system_backdrop = "Acrylic"
 config.macos_window_background_blur = 30
 --kde blur is nightly only
 --config.kde_window_background_blur = true
-config.font = wezterm.font("JetBrains Mono", { weight = "Regular" })
+config.font = wezterm.font("JetBrains Mono", { weight = "Bold" })
 
 wezterm.on('mux-is-process-stateful', function(_proc)
   return false
