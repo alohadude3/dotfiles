@@ -8,3 +8,6 @@
 !.ps1
 !.zshrc
 !.wezterm.lua
+
+!wake-windows.ps1
+!wake-macos.sh
