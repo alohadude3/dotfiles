@@ -4,7 +4,7 @@ local config = wezterm.config_builder()
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 
 local home_directory = os.getenv("USERPROFILE")
-config.default_prog = { home_directory .. '/scoop/shims/bash.exe' }
+config.default_prog = { 'C:/Program Files/PowerShell/7/pwsh.exe' }
 
 end
 
