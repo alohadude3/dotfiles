@@ -1,1 +1,10 @@
+quit-after-last-window-closed = true
+
 theme = TokyoNight
+
+#Cursor
+shell-integration-features = no-cursor
+cursor-style = block
+
+window-padding-x = 10
+window-padding-y = 4
