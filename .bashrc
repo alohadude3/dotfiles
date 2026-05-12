@@ -9,3 +9,6 @@ eval "$(zoxide init bash)"
 # Starship
 eval "$(starship init bash)"
 
+# Mise
+eval "$(mise activate bash)"
+
