@@ -12,6 +12,12 @@ set relativenumber
 " text scroll if you mouse-click near the start or end of the window.
 set scrolloff=5
 
+" Share system clipboard
+set clipboard=unnamedplus
+
+" Pasting over a selection no longer clobbers up clipboard
+vnoremap p P
+
 " Turn on the Wild menu
 set wildmenu
 
