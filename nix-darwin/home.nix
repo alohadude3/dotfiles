@@ -26,9 +26,9 @@ in
     home.sessionVariables.EDITOR = "nvim";
 
   # symlinks
-  home.file.".config/.vimrc".source =
+  home.file.".vimrc".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/.vimrc";
-  home.file.".config/.ideavimrc".source =
+  home.file.".ideavimrc".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/.ideavimrc";
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
