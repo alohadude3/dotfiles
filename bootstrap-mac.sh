@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Takes a fresh Mac from nothing to a built nix-darwin config.
-# Run this once. After it finishes, use ./build.sh for every later change.
+# Run this once. After it finishes, use ./build-mac.sh for every later change.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
@@ -60,4 +60,4 @@ sudo "$NIX_BIN" run github:nix-darwin/nix-darwin/nix-darwin-26.05#darwin-rebuild
 # If this still fails with "nix: command not found", open a new terminal
 # (Determinate adds nix to new shells' PATH) and re-run ./bootstrap.sh.
 
-echo "==> Done. Use ./build.sh for future changes."
+echo "==> Done. Use ./build-mac.sh for future changes."

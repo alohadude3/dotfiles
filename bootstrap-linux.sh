@@ -59,4 +59,4 @@ else
   eval "$RUN_ACTIONS"
 fi
 
-echo "==> Done. For future changes, just run: home-manager switch --flake ~/.dotfiles#${REAL_USER}@linux"
+echo "==> Done. Use ./build-linux.sh for future changes."
