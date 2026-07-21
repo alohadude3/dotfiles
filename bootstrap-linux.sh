@@ -25,25 +25,8 @@ if [ -z "$FLAKE_USER" ]; then
     echo "    Edit flake.nix yourself before continuing."
     exit 1
 elif [ "$FLAKE_USER" != "$REAL_USER" ]; then
-    echo "    flake.nix is configured for user \"$FLAKE_USER\", but you are \"$REAL_USER\"."
-    echo "    Options:"
-    echo "    1) Proceed with target user \"$FLAKE_USER\" (Normal for fresh NixOS/WSL installs)"
-    echo "    2) Rewrite flake.nix to use \"$REAL_USER\" instead"
-    echo "    3) Abort"
-    read -r -p "    Select [1/2/3]: " CHOICE
-    case "$CHOICE" in
-        1)
-            echo "    Proceeding with target user \"$FLAKE_USER\"."
-            ;;
-        2)
-            sed -i -E "s/^([[:space:]]*user = \")[^\"]+(\";.*)/\1${REAL_USER}\2/" "$DIR/flake.nix"
-            echo "    Updated flake.nix to user \"$REAL_USER\"."
-            ;;
-        *)
-            echo "    Aborted."
-            exit 1
-            ;;
-    esac
+    echo "    I see you are \"$REAL_USER\", but flake.nix is configured for \"$FLAKE_USER\"."
+    echo "    Proceeding with target user \"$FLAKE_USER\" (Normal for fresh NixOS/WSL installs)."
 else
     echo "    flake.nix already matches \"$REAL_USER\", nothing to do."
 fi
