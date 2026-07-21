@@ -6,5 +6,6 @@
 
     # Home Manager handles shell integration automatically
     enableZshIntegration = true;
+    enableBashIntegration = true;
   };
 }

@@ -6,6 +6,7 @@
 
         # Enable shell integration
         enableZshIntegration = true;
+	enableBashIntegration = true;
 
         globalConfig = {
             tools = {

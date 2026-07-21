@@ -9,6 +9,6 @@ ln -sfn "$DIR" ~/.dotfiles
 # Auto-stage any modified files for Nix flakes
 git -C "$DIR" add -A
 
-# Apply configuration with experimental features enabled
+# Apply configuration with experimental features and automatic file backup enabled
 NIX_CONFIG="experimental-features = nix-command flakes" \
-  home-manager switch --flake ~/.dotfiles#"$(whoami)@linux"
+  home-manager switch --flake ~/.dotfiles#"$(whoami)@linux" -b backup

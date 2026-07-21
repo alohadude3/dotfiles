@@ -6,6 +6,8 @@
 
         settings = {
             fetch.prune = true;
+	    # Include mutable configs here 
+	    include.path = "~/.gitconfig.local";
         };
 
         hooks = {
