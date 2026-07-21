@@ -14,17 +14,19 @@ in
     home.packages = with pkgs; [
         fd          # fast find
         fzf         # fuzzy finder
-	git
+        git
         jq          # json query
         lazygit     # git terminal gui
         lsd         # better ls
         neovim
-	pkgs.home-manager
+        pkgs.home-manager
         ripgrep     # fast search
         zoxide      # better cd
     ];
     fonts.fontconfig.enable = true;
-    home.sessionVariables.EDITOR = "nvim";
+    home.sessionVariables = {
+        EDITOR = "nvim";
+    };
 
   # symlinks
   home.file.".vimrc".source =
