@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
     programs.mise = {
@@ -17,7 +17,7 @@
                 auto_install = true;
                 all_compile = false;
                 trusted_config_paths = [
-                    "~/.dotfiles"
+                    "${config.home.homeDirectory}/.dotfiles"
                 ];
             };
         };

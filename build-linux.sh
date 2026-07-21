@@ -7,7 +7,7 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
 ln -sfn "$DIR" "$HOME/.dotfiles"
 
 echo "==> Applying NixOS configuration..."
-sudo nixos-rebuild switch --flake ~/.dotfiles#linux
+sudo nixos-rebuild switch --refresh --flake ~/.dotfiles#linux
 
 echo "==> Ensuring mise tools are installed..."
 # Run mise install normally.
