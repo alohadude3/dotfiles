@@ -32,12 +32,7 @@
         libraries = with pkgs; [
             stdenv.cc.cc
             zlib
-            fuse3
-            icu
-            nss
             openssl
-            curl
-            expat
             libffi
             libxcrypt
             readline
@@ -45,12 +40,8 @@
             bzip2
             xz
             ncurses
-            libxml2
-            libxslt
-            libgcrypt
-            libgpg-error
             glib
-            # Add more libraries here as needed for other mise tools
+            git
         ];
     };
 
