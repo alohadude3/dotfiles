@@ -10,15 +10,16 @@ in
     ];
 
     home.username = user;
-    home.homeDirectory = "/Users/${user}";
-    home.stateVersion = "24.11";
+    home.stateVersion = "26.05";
     home.packages = with pkgs; [
         fd          # fast find
         fzf         # fuzzy finder
+	git
         jq          # json query
         lazygit     # git terminal gui
         lsd         # better ls
         neovim
+	pkgs.home-manager
         ripgrep     # fast search
         zoxide      # better cd
     ];
@@ -32,4 +33,4 @@ in
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/.ideavimrc";
   home.file.".config/nvim".source =
     config.lib.file.mkOutOfStoreSymlink "${dotfiles}/home/.config/nvim";
- }
+}

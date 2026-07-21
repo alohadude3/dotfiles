@@ -45,7 +45,7 @@ fi
 
 echo "==> Step 4: first darwin-rebuild switch (pinned to nix-darwin-26.05)"
 # darwin-rebuild doesn't exist yet on a fresh machine, so run it straight
-# from the flake this once. After this, build.sh works normally.
+# from the flake this once. After this, build-mac.sh works normally.
 # This fetches the darwin-rebuild tool from the nix-darwin-26.05 release branch,
 # not the exact flake.lock revision. The system config it applies is still pinned
 # by this repo's flake.lock.
@@ -54,7 +54,7 @@ echo "==> Step 4: first darwin-rebuild switch (pinned to nix-darwin-26.05)"
 # on PATH here. Resolve the absolute path first and invoke that instead.
 NIX_BIN="$(command -v nix)"
 # "mac" is the flake host label - if you renamed it, change it in flake.nix
-# and build.sh too.
+# and build-mac.sh too.
 sudo "$NIX_BIN" run github:nix-darwin/nix-darwin/nix-darwin-26.05#darwin-rebuild -- \
   switch --flake ~/.dotfiles#Leos-Macbook
 # If this still fails with "nix: command not found", open a new terminal

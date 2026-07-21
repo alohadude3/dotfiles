@@ -1,5 +1,5 @@
 {
-  description = "nix-darwin";
+  description = "Nix";
 
   inputs = {
     # Use `github:NixOS/nixpkgs/nixpkgs-26.05-darwin` to use Nixpkgs 26.05.
@@ -17,21 +17,41 @@
   outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs }:
     let
       # The one username line to change if this isn't your machine.
-      # bootstrap.sh offers to rewrite this for you if your macOS username differs.
       user = "lhuang";
     in
     {
+      # macos
       darwinConfigurations."Leos-Macbook" = nix-darwin.lib.darwinSystem {
         specialArgs = { inherit user; };
         modules = [
-          ./configuration.nix
+          ./configuration-macos.nix
           nix-homebrew.darwinModules.nix-homebrew
           home-manager.darwinModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.extraSpecialArgs = { inherit user; };
-            home-manager.users.${user} = import ./home.nix;
+            home-manager.users.${user} = {
+              imports = [
+                ./home.nix
+                ./home-macos.nix
+              ];
+              home.homeDirectory = "/Users/${user}";
+            };
+          }
+        ];
+      };
+
+      # Linux / WSL User-Only Configuration (Standalone Home Manager)
+      homeConfigurations."${user}@linux" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = { inherit user; };
+        modules = [
+          ./configuration-linux.nix
+          ./home.nix
+          ./home-linux.nix
+          {
+            home.homeDirectory = "/home/${user}";
           }
         ];
       };
