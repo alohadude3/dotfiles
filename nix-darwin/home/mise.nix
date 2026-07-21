@@ -7,7 +7,7 @@
         # Enable shell integration
         enableZshIntegration = true;
 
-        settings = {
+        globalConfig = {
             tools = {
                 java = "temurin-21";
                 python = "latest";
