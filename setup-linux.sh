@@ -149,16 +149,7 @@ echo "Configuring Git..."
 
 # Symlink git config
 create_symlink "$HOME_DIR/.gitconfig" "$SCRIPT_DIR/.gitconfig"
-
-# Install pre-push hook if available
-if [ -f "$SCRIPT_DIR/git/hooks/pre-push" ]; then
-    mkdir -p "$HOME_DIR/.git/hooks"
-    cp "$SCRIPT_DIR/git/hooks/pre-push" "$HOME_DIR/.git/hooks/pre-push"
-    chmod +x "$HOME_DIR/.git/hooks/pre-push"
-    echo "  ✓ Installed pre-push hook"
-else
-    echo "  Warning: pre-push hook not found"
-fi
+create_symlink "$HOME_DIR/.config/git/hooks" "$SCRIPT_DIR/.config/git/hooks"
 
 echo ""
 echo "================================"

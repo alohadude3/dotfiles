@@ -1,16 +1,19 @@
 #!/bin/bash
 
-# pre-push hook to prevent pushing commits with "[Drop]" in the message
+# pre-push hook to prevent pushing commits with "[drop]" or "wip" in the message (case-insensitive)
 
 # Read the standard input provided by Git on push
 while read local_ref local_sha remote_ref remote_sha
 do
+    # If the local SHA is all zeros, we are deleting a branch. Safe to skip.
+    if [ "$local_sha" = "0000000000000000000000000000000000000000" ]; then
+        continue
+    fi
+
     # If the remote SHA is all zeros, it means we are pushing a new branch.
-    # We need to check all commits that are not already on the remote.
     if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
         commit_range="$local_sha --not --remotes"
     else
-        # Otherwise, check the commits between what the remote has and what we are pushing
         commit_range="$remote_sha..$local_sha"
     fi
 
@@ -19,19 +22,22 @@ do
 
     # Loop through each commit being pushed
     for commit in $commits; do
-        # Extract the commit message
         commit_message=$(git log --format=%B -n 1 "$commit")
 
-        # Check if the message contains exactly "[Drop]"
-        if [[ "$commit_message" == *"[Drop]"* ]]; then
+        # Use grep -i for case-insensitive matching.
+        # -q: quiet (don't print)
+        # -E: extended regex
+        # Pattern 1: literal "[drop]" (case-insensitive)
+        # Pattern 2: "wip" with boundary checks (case-insensitive) to avoid swiping/equipment
+        if echo "$commit_message" | grep -qiE "\[drop\]|((^|[^a-zA-Z0-9])wip($|[^a-zA-Z0-9]))"; then
             echo "========================================================="
-            echo "🛑 PUSH REJECTED: Temporary commit detected."
+            echo "🛑 PUSH REJECTED: Temporary or WIP commit detected."
             echo "========================================================="
             echo "Commit: $commit"
             echo "Message: $(git log --format=%s -n 1 "$commit")"
             echo ""
-            echo "This commit contains '[Drop]'. Please squash, amend,"
-            echo "or drop this commit via interactive rebase before pushing."
+            echo "This commit contains '[drop]' or 'wip'. Please squash, amend,"
+            echo "or drop this commit before pushing."
             echo "========================================================="
             exit 1
         fi

@@ -184,20 +184,7 @@ Write-Host "Configuring Git..." -ForegroundColor Yellow
 
 # Symlink git config
 New-SymlinkSafe -Link "$homeDir\.gitconfig" -Target "$dotfilesPath\.gitconfig"
-
-# Install pre-push hook if available
-$prePushHook = "$dotfilesPath\git\hooks\pre-push"
-$prePushHookDest = "$homeDir\.git\hooks\pre-push"
-if (Test-Path $prePushHook) {
-    $gitHooksDir = "$homeDir\.git\hooks"
-    if (-not (Test-Path $gitHooksDir)) {
-        New-Item -ItemType Directory -Path $gitHooksDir -Force >$null
-    }
-    Copy-Item -Path $prePushHook -Destination $prePushHookDest -Force
-    Write-Host "  ✓ Installed pre-push hook" -ForegroundColor Green
-} else {
-    Write-Host "  Warning: pre-push hook not found at $prePushHook" -ForegroundColor Yellow
-}
+New-SymlinkSafe -Link "$homeDir\.config\git\hooks" -Target "$dotfilesPath\.config\git\hooks"
 
 Write-Host ""
 Write-Host "Configuring PowerShell..." -ForegroundColor Yellow
