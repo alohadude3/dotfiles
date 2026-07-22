@@ -14,7 +14,7 @@
                 python = "3.13";
             };
             settings = {
-                auto_install = true;
+                auto_install = false;
                 all_compile = false;
                 trusted_config_paths = [
                     "${config.home.homeDirectory}/.dotfiles"
