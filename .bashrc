@@ -3,7 +3,6 @@ alias ls='lsd'
 alias ll='lsd -la'
 
 # Zoxide
-alias cd='z'
 eval "$(zoxide init bash)"
 
 # Starship

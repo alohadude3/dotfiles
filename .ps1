@@ -9,7 +9,6 @@ function lsd_long {
 Set-Alias -Name ll -Value lsd_long -Option AllScope
 
 # Zoxide
-Set-Alias -Name cd -Value z -Option AllScope
 Invoke-Expression (& { (zoxide init powershell | Out-String) })
 
 # Starship
