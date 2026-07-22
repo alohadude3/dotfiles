@@ -167,6 +167,7 @@ function New-SymlinkSafe {
 New-SymlinkSafe -Link "$homeDir\.ideavimrc" -Target "$dotfilesPath\.ideavimrc"
 New-SymlinkSafe -Link "$homeDir\.inputrc" -Target "$dotfilesPath\.inputrc"
 New-SymlinkSafe -Link "$homeDir\.vimrc" -Target "$dotfilesPath\.vimrc"
+New-SymlinkSafe -Link "$homeDir\.bashrc" -Target "$dotfilesPath\.bashrc"
 New-SymlinkSafe -Link "$homeDir\.wezterm.lua" -Target "$dotfilesPath\.wezterm.lua"
 
 # Create .config directory structure
