@@ -69,7 +69,6 @@ function Install-ScoopCLI {
         "lazygit",
         "lsd",
         "mise",
-        "mpc-hc-fork",
         "neovim",
         "ripgrep",
         "scrcpy",
@@ -95,12 +94,14 @@ function Install-ScoopGUI {
     
     # Add extras bucket for GUI applications
     Write-Host "Adding Scoop extras bucket..." -ForegroundColor Cyan
-    scoop bucket add extras
+    scoop bucket add extras -ErrorAction SilentlyContinue
+    Write-Host "  ✓ Scoop extras bucket ready" -ForegroundColor Green
     
     $gui_packages = @(
         "bitwarden",
         "googlechrome",
         "jetbrains-toolbox",
+        "mpc-hc-fork",
         "sublime-merge",
         "sublime-text",
         "zed"
@@ -199,49 +200,10 @@ if (Test-Path $prePushHook) {
 }
 
 Write-Host ""
-Write-Host "Creating symlinks..." -ForegroundColor Yellow
-
-# Create symlinks
-New-SymlinkSafe -Link "$homeDir\.vimrc" -Target "$dotfilesPath\.vimrc"
-New-SymlinkSafe -Link "$homeDir\.ideavimrc" -Target "$dotfilesPath\.ideavimrc"
-New-SymlinkSafe -Link "$homeDir\.inputrc" -Target "$dotfilesPath\.inputrc"
-New-SymlinkSafe -Link "$homeDir\.wezterm.lua" -Target "$dotfilesPath\.wezterm.lua"
-
-# Create .config directory structure
-$configDir = "$homeDir\.config"
-if (-not (Test-Path $configDir)) {
-    New-Item -ItemType Directory -Path $configDir -Force >$null
-}
-
-New-SymlinkSafe -Link "$homeDir\.config\nvim" -Target "$dotfilesPath\.config\nvim"
-New-SymlinkSafe -Link "$homeDir\.config\ghostty" -Target "$dotfilesPath\.config\ghostty"
-New-SymlinkSafe -Link "$homeDir\.config\mise" -Target "$dotfilesPath\.config\mise"
-
-Write-Host ""
 Write-Host "Configuring PowerShell..." -ForegroundColor Yellow
 
 # Symlink PowerShell profile
 New-SymlinkSafe -Link $PROFILE -Target "$dotfilesPath\.ps1"
-
-Write-Host ""
-Write-Host "Configuring Git..." -ForegroundColor Yellow
-
-# Symlink git config
-New-SymlinkSafe -Link "$homeDir\.gitconfig" -Target "$dotfilesPath\.gitconfig"
-
-# Install pre-push hook if available
-$prePushHook = "$dotfilesPath\git\hooks\pre-push"
-$prePushHookDest = "$homeDir\.git\hooks\pre-push"
-if (Test-Path $prePushHook) {
-    $gitHooksDir = "$homeDir\.git\hooks"
-    if (-not (Test-Path $gitHooksDir)) {
-        New-Item -ItemType Directory -Path $gitHooksDir -Force >$null
-    }
-    Copy-Item -Path $prePushHook -Destination $prePushHookDest -Force
-    Write-Host "  ✓ Installed pre-push hook" -ForegroundColor Green
-} else {
-    Write-Host "  Warning: pre-push hook not found at $prePushHook" -ForegroundColor Yellow
-}
 
 Write-Host ""
 Write-Host "================================" -ForegroundColor Cyan
