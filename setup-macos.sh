@@ -25,26 +25,31 @@ echo "Installing required packages via Homebrew..."
 
 # Formulae to install
 formulae=(
-    "git"
-    "neovim"
     "fd"
     "fzf"
+    "git"
     "jq"
-    "ripgrep"
     "lazygit"
-    "zoxide"
     "lsd"
+    "mise"
+    "neovim"
+    "ripgrep"
+    "scrcpy"
+    "starship"
+    "vim"
+    "zoxide"
 )
 
 # Casks to install (GUI applications)
 casks=(
+    "bitwarden"
     "ghostty"
     "google-chrome"
     "jetbrains-toolbox"
     "linearmouse"
     "logi-options+"
-    "sublime-text"
     "sublime-merge"
+    "sublime-text"
     "zed"
 )
 
@@ -77,21 +82,17 @@ create_symlink() {
     local link="$1"
     local target="$2"
 
-    if [ -e "$link" ] || [ -L "$link" ]; then
-        echo "  $link already exists, skipping..."
-        return
-    fi
-
     local link_dir=$(dirname "$link")
     mkdir -p "$link_dir"
 
-    ln -s "$target" "$link"
+    ln -sf "$target" "$link"
     echo "  ✓ $link -> $target"
 }
 
 # Create symlinks
 create_symlink "$HOME_DIR/.vimrc" "$SCRIPT_DIR/.vimrc"
 create_symlink "$HOME_DIR/.ideavimrc" "$SCRIPT_DIR/.ideavimrc"
+create_symlink "$HOME_DIR/.ideavim" "$SCRIPT_DIR/.ideavim"
 create_symlink "$HOME_DIR/.inputrc" "$SCRIPT_DIR/.inputrc"
 create_symlink "$HOME_DIR/.wezterm.lua" "$SCRIPT_DIR/.wezterm.lua"
 create_symlink "$HOME_DIR/.config/nvim" "$SCRIPT_DIR/.config/nvim"
@@ -108,7 +109,17 @@ if [ -f "$SCRIPT_DIR/.zshrc" ]; then
 fi
 
 echo ""
-echo "================================"
-echo "Setup Complete!"
-echo "================================"
-echo ""
+echo "Configuring Git..."
+
+# Symlink git config
+create_symlink "$HOME_DIR/.gitconfig" "$SCRIPT_DIR/.gitconfig"
+
+# Install pre-push hook if available
+if [ -f "$SCRIPT_DIR/git/hooks/pre-push" ]; then
+    mkdir -p "$HOME_DIR/.git/hooks"
+    cp "$SCRIPT_DIR/git/hooks/pre-push" "$HOME_DIR/.git/hooks/pre-push"
+    chmod +x "$HOME_DIR/.git/hooks/pre-push"
+    echo "  ✓ Installed pre-push hook"
+else
+    echo "  Warning: pre-push hook not found"
+fi

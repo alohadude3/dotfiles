@@ -56,13 +56,54 @@ function Install-Scoop {
     }
 }
 
-# Install packages using Scoop
-function Install-ScoopPackages {
+# Install CLI packages using Scoop
+function Install-ScoopCLI {
     Write-Host ""
-    Write-Host "Installing required packages via Scoop..." -ForegroundColor Yellow
-    $packages = @("git", "neovim", "fd", "fzf", "jq", "ripgrep", "lazygit", "zoxide", "lsd")
+    Write-Host "Installing CLI packages via Scoop..." -ForegroundColor Yellow
+    $cli_packages = @(
+        "fd",
+        "fzf",
+        "git",
+        "jq",
+        "lazygit",
+        "lsd",
+        "mise",
+        "neovim",
+        "ripgrep",
+        "scrcpy",
+        "starship",
+        "vim",
+        "zoxide"
+    )
     
-    foreach ($package in $packages) {
+    foreach ($package in $cli_packages) {
+        Write-Host "Installing $package..." -ForegroundColor Cyan
+        scoop install $package
+        if ($LASTEXITCODE -ne 0) {
+            Write-Host "Warning: Failed to install $package" -ForegroundColor Yellow
+        }
+    }
+}
+
+# Install GUI packages using Scoop
+function Install-ScoopGUI {
+    Write-Host ""
+    Write-Host "Installing GUI packages via Scoop..." -ForegroundColor Yellow
+    
+    # Add extras bucket for GUI applications
+    Write-Host "Adding Scoop extras bucket..." -ForegroundColor Cyan
+    scoop bucket add extras
+    
+    $gui_packages = @(
+        "bitwarden",
+        "googlechrome",
+        "jetbrains-toolbox",
+        "sublime-merge",
+        "sublime-text",
+        "zed"
+    )
+    
+    foreach ($package in $gui_packages) {
         Write-Host "Installing $package..." -ForegroundColor Cyan
         scoop install $package
         if ($LASTEXITCODE -ne 0) {
@@ -79,9 +120,69 @@ if (-not $SkipPackages) {
         Write-Host "Scoop is already installed." -ForegroundColor Green
     }
     
-    Install-ScoopPackages
+    Install-ScoopCLI
+    Install-ScoopGUI
 } else {
     Write-Host "Skipping package installation." -ForegroundColor Yellow
+}
+
+Write-Host ""
+Write-Host "Creating symlinks..." -ForegroundColor Yellow
+
+# Function to create symlink
+function New-SymlinkSafe {
+    param(
+        [string]$Link,
+        [string]$Target
+    )
+
+    $LinkDir = Split-Path -Parent $Link
+    if (-not (Test-Path $LinkDir)) {
+        New-Item -ItemType Directory -Path $LinkDir -Force >$null
+    }
+
+    try {
+        New-Item -ItemType SymbolicLink -Path $Link -Target $Target -Force >$null
+        Write-Host "  ✓ $Link -> $Target" -ForegroundColor Green
+    } catch {
+        Write-Host "  ✗ Failed to create symlink for $Link" -ForegroundColor Red
+    }
+}
+
+# Create symlinks
+New-SymlinkSafe -Link "$homeDir\.ideavimrc" -Target "$dotfilesPath\.ideavimrc"
+New-SymlinkSafe -Link "$homeDir\.inputrc" -Target "$dotfilesPath\.inputrc"
+New-SymlinkSafe -Link "$homeDir\.vimrc" -Target "$dotfilesPath\.vimrc"
+New-SymlinkSafe -Link "$homeDir\.wezterm.lua" -Target "$dotfilesPath\.wezterm.lua"
+
+# Create .config directory structure
+$configDir = "$homeDir\.config"
+if (-not (Test-Path $configDir)) {
+    New-Item -ItemType Directory -Path $configDir -Force >$null
+}
+
+New-SymlinkSafe -Link "$homeDir\.config\ghostty" -Target "$dotfilesPath\.config\ghostty"
+New-SymlinkSafe -Link "$homeDir\.config\mise" -Target "$dotfilesPath\.config\mise"
+New-SymlinkSafe -Link "$homeDir\.config\nvim" -Target "$dotfilesPath\.config\nvim"
+
+Write-Host ""
+Write-Host "Configuring Git..." -ForegroundColor Yellow
+
+# Symlink git config
+New-SymlinkSafe -Link "$homeDir\.gitconfig" -Target "$dotfilesPath\.gitconfig"
+
+# Install pre-push hook if available
+$prePushHook = "$dotfilesPath\git\hooks\pre-push"
+$prePushHookDest = "$homeDir\.git\hooks\pre-push"
+if (Test-Path $prePushHook) {
+    $gitHooksDir = "$homeDir\.git\hooks"
+    if (-not (Test-Path $gitHooksDir)) {
+        New-Item -ItemType Directory -Path $gitHooksDir -Force >$null
+    }
+    Copy-Item -Path $prePushHook -Destination $prePushHookDest -Force
+    Write-Host "  ✓ Installed pre-push hook" -ForegroundColor Green
+} else {
+    Write-Host "  Warning: pre-push hook not found at $prePushHook" -ForegroundColor Yellow
 }
 
 Write-Host ""
@@ -127,6 +228,32 @@ if (-not (Test-Path $configDir)) {
 New-SymlinkSafe -Link "$homeDir\.config\nvim" -Target "$dotfilesPath\.config\nvim"
 New-SymlinkSafe -Link "$homeDir\.config\ghostty" -Target "$dotfilesPath\.config\ghostty"
 New-SymlinkSafe -Link "$homeDir\.config\mise" -Target "$dotfilesPath\.config\mise"
+
+Write-Host ""
+Write-Host "Configuring PowerShell..." -ForegroundColor Yellow
+
+# Symlink PowerShell profile
+New-SymlinkSafe -Link $PROFILE -Target "$dotfilesPath\.ps1"
+
+Write-Host ""
+Write-Host "Configuring Git..." -ForegroundColor Yellow
+
+# Symlink git config
+New-SymlinkSafe -Link "$homeDir\.gitconfig" -Target "$dotfilesPath\.gitconfig"
+
+# Install pre-push hook if available
+$prePushHook = "$dotfilesPath\git\hooks\pre-push"
+$prePushHookDest = "$homeDir\.git\hooks\pre-push"
+if (Test-Path $prePushHook) {
+    $gitHooksDir = "$homeDir\.git\hooks"
+    if (-not (Test-Path $gitHooksDir)) {
+        New-Item -ItemType Directory -Path $gitHooksDir -Force >$null
+    }
+    Copy-Item -Path $prePushHook -Destination $prePushHookDest -Force
+    Write-Host "  ✓ Installed pre-push hook" -ForegroundColor Green
+} else {
+    Write-Host "  Warning: pre-push hook not found at $prePushHook" -ForegroundColor Yellow
+}
 
 Write-Host ""
 Write-Host "================================" -ForegroundColor Cyan

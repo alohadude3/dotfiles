@@ -15,15 +15,20 @@ echo ""
 
 # Single package list (generic names)
 packages=(
-    "git"
-    "neovim"
     "fd"
     "fzf"
+    "ghostty"
+    "git"
     "jq"
-    "ripgrep"
     "lazygit"
-    "zoxide"
     "lsd"
+    "mise"
+    "neovim"
+    "ripgrep"
+    "scrcpy"
+    "starship"
+    "vim"
+    "zoxide"
 )
 
 # Detect package manager and set install command
@@ -78,6 +83,29 @@ for package in "${packages[@]}"; do
 done
 
 echo ""
+echo "Installing GUI applications via Flatpak..."
+
+# Check if flatpak is installed
+if ! command -v flatpak &> /dev/null; then
+    echo "Flatpak not found. Installing Flatpak..."
+    $PKG_INSTALL_CMD flatpak || echo "Warning: Failed to install flatpak"
+fi
+
+# GUI applications to install via Flatpak
+flatpak_apps=(
+    "com.bitwarden.desktop"
+    "com.google.Chrome"
+    "com.sublimehq.SublimeText"
+    "com.sublimemerge.App"
+    "dev.zed.Zed"
+)
+
+for app in "${flatpak_apps[@]}"; do
+    echo "  Installing $app..."
+    flatpak install -y flathub "$app" || echo "  Warning: Failed to install $app"
+done
+
+echo ""
 echo "Creating symlinks..."
 
 # Function to create symlink safely
@@ -85,21 +113,17 @@ create_symlink() {
     local link="$1"
     local target="$2"
 
-    if [ -e "$link" ] || [ -L "$link" ]; then
-        echo "  $link already exists, skipping..."
-        return
-    fi
-
     local link_dir=$(dirname "$link")
     mkdir -p "$link_dir"
 
-    ln -s "$target" "$link"
+    ln -sf "$target" "$link"
     echo "  ✓ $link -> $target"
 }
 
 # Create symlinks
 create_symlink "$HOME_DIR/.vimrc" "$SCRIPT_DIR/.vimrc"
 create_symlink "$HOME_DIR/.ideavimrc" "$SCRIPT_DIR/.ideavimrc"
+create_symlink "$HOME_DIR/.ideavim" "$SCRIPT_DIR/.ideavim"
 create_symlink "$HOME_DIR/.inputrc" "$SCRIPT_DIR/.inputrc"
 create_symlink "$HOME_DIR/.wezterm.lua" "$SCRIPT_DIR/.wezterm.lua"
 create_symlink "$HOME_DIR/.config/nvim" "$SCRIPT_DIR/.config/nvim"
@@ -113,6 +137,22 @@ fi
 
 if [ -f "$SCRIPT_DIR/.zshrc" ]; then
     create_symlink "$HOME_DIR/.zshrc" "$SCRIPT_DIR/.zshrc"
+fi
+
+echo ""
+echo "Configuring Git..."
+
+# Symlink git config
+create_symlink "$HOME_DIR/.gitconfig" "$SCRIPT_DIR/.gitconfig"
+
+# Install pre-push hook if available
+if [ -f "$SCRIPT_DIR/git/hooks/pre-push" ]; then
+    mkdir -p "$HOME_DIR/.git/hooks"
+    cp "$SCRIPT_DIR/git/hooks/pre-push" "$HOME_DIR/.git/hooks/pre-push"
+    chmod +x "$HOME_DIR/.git/hooks/pre-push"
+    echo "  ✓ Installed pre-push hook"
+else
+    echo "  Warning: pre-push hook not found"
 fi
 
 echo ""

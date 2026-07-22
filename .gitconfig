@@ -1,0 +1,11 @@
+[user]
+    useConfigOnly = true
+[core]
+	eol = lf
+	autocrlf = input
+
+[fetch]
+	prune = true
+
+[include]
+	path = ~/.gitconfig.local
