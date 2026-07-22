@@ -1,0 +1,127 @@
+#!/bin/bash
+# Linux Setup Script for Dotfiles
+# Installs required packages and creates symlinks to dotfiles
+# Supports apt (Debian/Ubuntu), dnf (Fedora/RHEL), and pacman (Arch)
+
+set -e
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+HOME_DIR="$HOME"
+
+echo "================================"
+echo "Linux Dotfiles Setup"
+echo "================================"
+echo ""
+
+# Detect package manager
+if command -v apt &> /dev/null; then
+    PKG_MANAGER="apt"
+    PKG_INSTALL_CMD="sudo apt-get install -y"
+    PKG_UPDATE_CMD="sudo apt-get update"
+    # Map package names for apt
+    declare -A PACKAGES=(
+        [git]="git"
+        [neovim]="neovim"
+        [fd]="fd-find"
+        [fzf]="fzf"
+        [jq]="jq"
+        [ripgrep]="ripgrep"
+        [lazygit]="lazygit"
+        [zoxide]="zoxide"
+        [lsd]="lsd"
+    )
+elif command -v dnf &> /dev/null; then
+    PKG_MANAGER="dnf"
+    PKG_INSTALL_CMD="sudo dnf install -y"
+    PKG_UPDATE_CMD="sudo dnf check-update"
+    # Map package names for dnf
+    declare -A PACKAGES=(
+        [git]="git"
+        [neovim]="neovim"
+        [fd]="fd-find"
+        [fzf]="fzf"
+        [jq]="jq"
+        [ripgrep]="ripgrep"
+        [lazygit]="lazygit"
+        [zoxide]="zoxide"
+        [lsd]="lsd"
+    )
+elif command -v pacman &> /dev/null; then
+    PKG_MANAGER="pacman"
+    PKG_INSTALL_CMD="sudo pacman -S --noconfirm"
+    PKG_UPDATE_CMD="sudo pacman -Sy"
+    # Map package names for pacman
+    declare -A PACKAGES=(
+        [git]="git"
+        [neovim]="neovim"
+        [fd]="fd"
+        [fzf]="fzf"
+        [jq]="jq"
+        [ripgrep]="ripgrep"
+        [lazygit]="lazygit"
+        [zoxide]="zoxide"
+        [lsd]="lsd"
+    )
+else
+    echo "Error: No supported package manager found."
+    echo "Please install packages manually: git neovim fd fzf jq ripgrep lazygit zoxide lsd"
+    exit 1
+fi
+
+echo "Detected package manager: $PKG_MANAGER"
+echo ""
+echo "Updating package manager..."
+$PKG_UPDATE_CMD || true
+
+echo ""
+echo "Installing required packages via $PKG_MANAGER..."
+
+for package in "${!PACKAGES[@]}"; do
+    pkg_name="${PACKAGES[$package]}"
+    echo "  Installing $package ($pkg_name)..."
+    $PKG_INSTALL_CMD "$pkg_name" || echo "  Warning: Failed to install $package"
+done
+
+echo ""
+echo "Creating symlinks..."
+
+# Function to create symlink safely
+create_symlink() {
+    local link="$1"
+    local target="$2"
+
+    if [ -e "$link" ] || [ -L "$link" ]; then
+        echo "  $link already exists, skipping..."
+        return
+    fi
+
+    local link_dir=$(dirname "$link")
+    mkdir -p "$link_dir"
+
+    ln -s "$target" "$link"
+    echo "  ✓ $link -> $target"
+}
+
+# Create symlinks
+create_symlink "$HOME_DIR/.vimrc" "$SCRIPT_DIR/.vimrc"
+create_symlink "$HOME_DIR/.ideavimrc" "$SCRIPT_DIR/.ideavimrc"
+create_symlink "$HOME_DIR/.inputrc" "$SCRIPT_DIR/.inputrc"
+create_symlink "$HOME_DIR/.wezterm.lua" "$SCRIPT_DIR/.wezterm.lua"
+create_symlink "$HOME_DIR/.config/nvim" "$SCRIPT_DIR/.config/nvim"
+create_symlink "$HOME_DIR/.config/ghostty" "$SCRIPT_DIR/.config/ghostty"
+create_symlink "$HOME_DIR/.config/mise" "$SCRIPT_DIR/.config/mise"
+
+# Handle shell configs
+if [ -f "$SCRIPT_DIR/.bashrc" ]; then
+    create_symlink "$HOME_DIR/.bashrc" "$SCRIPT_DIR/.bashrc"
+fi
+
+if [ -f "$SCRIPT_DIR/.zshrc" ]; then
+    create_symlink "$HOME_DIR/.zshrc" "$SCRIPT_DIR/.zshrc"
+fi
+
+echo ""
+echo "================================"
+echo "Setup Complete!"
+echo "================================"
+echo ""
