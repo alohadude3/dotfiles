@@ -23,7 +23,8 @@ fi
 echo ""
 echo "Installing required packages via Homebrew..."
 
-packages=(
+# Formulae to install
+formulae=(
     "git"
     "neovim"
     "fd"
@@ -35,12 +36,36 @@ packages=(
     "lsd"
 )
 
-for package in "${packages[@]}"; do
+# Casks to install (GUI applications)
+casks=(
+    "ghostty"
+    "google-chrome"
+    "jetbrains-toolbox"
+    "linearmouse"
+    "logi-options+"
+    "sublime-text"
+    "sublime-merge"
+    "zed"
+)
+
+echo "Installing Homebrew formulae..."
+for package in "${formulae[@]}"; do
     if brew list "$package" &>/dev/null; then
         echo "  ✓ $package is already installed"
     else
         echo "  Installing $package..."
         brew install "$package"
+    fi
+done
+
+echo ""
+echo "Installing Homebrew casks..."
+for cask in "${casks[@]}"; do
+    if brew list --cask "$cask" &>/dev/null; then
+        echo "  ✓ $cask is already installed"
+    else
+        echo "  Installing $cask..."
+        brew install --cask "$cask"
     fi
 done
 

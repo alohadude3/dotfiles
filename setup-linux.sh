@@ -13,58 +13,51 @@ echo "Linux Dotfiles Setup"
 echo "================================"
 echo ""
 
-# Detect package manager
+# Single package list (generic names)
+packages=(
+    "git"
+    "neovim"
+    "fd"
+    "fzf"
+    "jq"
+    "ripgrep"
+    "lazygit"
+    "zoxide"
+    "lsd"
+)
+
+# Detect package manager and set install command
 if command -v apt &> /dev/null; then
     PKG_MANAGER="apt"
     PKG_INSTALL_CMD="sudo apt-get install -y"
     PKG_UPDATE_CMD="sudo apt-get update"
-    # Map package names for apt
-    declare -A PACKAGES=(
-        [git]="git"
-        [neovim]="neovim"
+    
+    # Package name mappings for apt (where they differ from generic names)
+    declare -A PKG_MAP=(
         [fd]="fd-find"
-        [fzf]="fzf"
-        [jq]="jq"
-        [ripgrep]="ripgrep"
-        [lazygit]="lazygit"
-        [zoxide]="zoxide"
-        [lsd]="lsd"
     )
+    
 elif command -v dnf &> /dev/null; then
     PKG_MANAGER="dnf"
     PKG_INSTALL_CMD="sudo dnf install -y"
     PKG_UPDATE_CMD="sudo dnf check-update"
-    # Map package names for dnf
-    declare -A PACKAGES=(
-        [git]="git"
-        [neovim]="neovim"
+    
+    # Package name mappings for dnf (where they differ from generic names)
+    declare -A PKG_MAP=(
         [fd]="fd-find"
-        [fzf]="fzf"
-        [jq]="jq"
-        [ripgrep]="ripgrep"
-        [lazygit]="lazygit"
-        [zoxide]="zoxide"
-        [lsd]="lsd"
     )
+    
 elif command -v pacman &> /dev/null; then
     PKG_MANAGER="pacman"
     PKG_INSTALL_CMD="sudo pacman -S --noconfirm"
     PKG_UPDATE_CMD="sudo pacman -Sy"
-    # Map package names for pacman
-    declare -A PACKAGES=(
-        [git]="git"
-        [neovim]="neovim"
-        [fd]="fd"
-        [fzf]="fzf"
-        [jq]="jq"
-        [ripgrep]="ripgrep"
-        [lazygit]="lazygit"
-        [zoxide]="zoxide"
-        [lsd]="lsd"
-    )
+    
+    # Package name mappings for pacman (where they differ from generic names)
+    declare -A PKG_MAP=()
+    
 else
     echo "Error: No supported package manager found."
-    echo "Please install packages manually: git neovim fd fzf jq ripgrep lazygit zoxide lsd"
+    echo "Please install packages manually: ${packages[*]}"
     exit 1
 fi
 
@@ -76,8 +69,10 @@ $PKG_UPDATE_CMD || true
 echo ""
 echo "Installing required packages via $PKG_MANAGER..."
 
-for package in "${!PACKAGES[@]}"; do
-    pkg_name="${PACKAGES[$package]}"
+for package in "${packages[@]}"; do
+    # Use mapped name if it exists, otherwise use generic name
+    pkg_name="${PKG_MAP[$package]:-$package}"
+    
     echo "  Installing $package ($pkg_name)..."
     $PKG_INSTALL_CMD "$pkg_name" || echo "  Warning: Failed to install $package"
 done
