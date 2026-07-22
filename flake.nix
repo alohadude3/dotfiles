@@ -70,5 +70,21 @@
           }
         ];
       };
+
+      # Generic Linux Home Manager Configuration
+      homeConfigurations.linux = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.x86_64-linux;
+        extraSpecialArgs = { inherit user; };
+        modules = [
+          ./home.nix
+          ./home-linux.nix
+          {
+            home = {
+              username = user;
+              homeDirectory = "/home/${user}";
+            };
+          }
+        ];
+      };
     };
 }
