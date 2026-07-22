@@ -69,10 +69,12 @@ function Install-ScoopCLI {
         "lazygit",
         "lsd",
         "mise",
+        "mpc-hc-fork",
         "neovim",
         "ripgrep",
         "scrcpy",
         "starship",
+        "touch",
         "vim",
         "zoxide"
     )
