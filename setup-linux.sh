@@ -116,6 +116,11 @@ create_symlink() {
     local link_dir=$(dirname "$link")
     mkdir -p "$link_dir"
 
+    # Remove existing file/directory before creating symlink
+    if [ -e "$link" ] || [ -L "$link" ]; then
+        rm -rf "$link" || { echo "  ✗ Failed to remove existing $link"; return 1; }
+    fi
+
     ln -sf "$target" "$link"
     echo "  ✓ $link -> $target"
 }

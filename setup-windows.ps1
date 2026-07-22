@@ -64,6 +64,7 @@ function Install-ScoopCLI {
         "fd",
         "fzf",
         "git",
+        "gsudo",
         "jq",
         "lazygit",
         "lsd",
@@ -141,6 +142,16 @@ function New-SymlinkSafe {
         New-Item -ItemType Directory -Path $LinkDir -Force >$null
     }
 
+    # Remove existing file/directory before creating symlink
+    if (Test-Path $Link) {
+        try {
+            Remove-Item -Path $Link -Force -Recurse -ErrorAction Stop
+        } catch {
+            Write-Host "  ✗ Failed to remove existing $Link" -ForegroundColor Red
+            return
+        }
+    }
+
     try {
         New-Item -ItemType SymbolicLink -Path $Link -Target $Target -Force >$null
         Write-Host "  ✓ $Link -> $Target" -ForegroundColor Green
@@ -187,31 +198,6 @@ if (Test-Path $prePushHook) {
 
 Write-Host ""
 Write-Host "Creating symlinks..." -ForegroundColor Yellow
-
-# Function to create symlink
-function New-SymlinkSafe {
-    param(
-        [string]$Link,
-        [string]$Target
-    )
-
-    if (Test-Path $Link) {
-        Write-Host "  $Link already exists, skipping..." -ForegroundColor Gray
-        return
-    }
-
-    $LinkDir = Split-Path -Parent $Link
-    if (-not (Test-Path $LinkDir)) {
-        New-Item -ItemType Directory -Path $LinkDir -Force >$null
-    }
-
-    try {
-        New-Item -ItemType SymbolicLink -Path $Link -Target $Target -Force >$null
-        Write-Host "  ✓ $Link -> $Target" -ForegroundColor Green
-    } catch {
-        Write-Host "  ✗ Failed to create symlink for $Link" -ForegroundColor Red
-    }
-}
 
 # Create symlinks
 New-SymlinkSafe -Link "$homeDir\.vimrc" -Target "$dotfilesPath\.vimrc"
