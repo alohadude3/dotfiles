@@ -1,0 +1,127 @@
+{
+  "$schema" : "https:\/\/schema.linearmouse.app\/0.10.0",
+  "schemes" : [
+    {
+      "scrolling" : {
+        "speed" : {
+          "vertical" : 0
+        },
+        "reverse" : {
+          "vertical" : false
+        },
+        "distance" : {
+          "vertical" : 3
+        },
+        "acceleration" : {
+          "vertical" : 1
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0,
+        "speed" : 0.3005
+      },
+      "if" : {
+        "device" : {
+          "productID" : "0x7d",
+          "category" : "mouse",
+          "productName" : "Razer DeathAdder V2 Pro",
+          "vendorID" : "0x1532",
+          "serialNumber" : "000000000000"
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "productID" : "0x8e",
+          "category" : "mouse",
+          "productName" : "DA V2 Pro",
+          "vendorID" : "0x1532"
+        }
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "speed" : {
+          "vertical" : 0
+        },
+        "distance" : {
+          "vertical" : 3
+        }
+      },
+      "pointer" : {
+        "speed" : 0.3,
+        "acceleration" : 0
+      },
+      "buttons" : {
+        "universalBackForward" : true
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "productID" : "0xb7",
+          "serialNumber" : "000000000000",
+          "productName" : "Razer DeathAdder V3 Pro",
+          "category" : "mouse",
+          "vendorID" : "0x1532"
+        }
+      },
+      "pointer" : {
+        "speed" : 0.3,
+        "acceleration" : 0
+      },
+      "scrolling" : {
+        "distance" : {
+          "vertical" : 3
+        },
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "speed" : {
+          "vertical" : 0
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "productID" : "0x281",
+          "productName" : "Apple Internal Keyboard \/ Trackpad",
+          "vendorID" : "0x5ac",
+          "category" : "trackpad"
+        }
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        }
+      }
+    },
+    {
+      "pointer" : {
+        "acceleration" : 1,
+        "speed" : 0.3,
+        "disableAcceleration" : true
+      },
+      "if" : {
+        "device" : {
+          "serialNumber" : "E981DDE7",
+          "productName" : "MX Master 3 B",
+          "vendorID" : "0x46d",
+          "productID" : "0xb028",
+          "category" : "mouse"
+        }
+      },
+      "scrolling" : {
+        "reverse" : {
+          "horizontal" : false
+        },
+        "distance" : "auto",
+        "speed" : 0,
+        "acceleration" : 1
+      }
+    }
+  ]
+}
