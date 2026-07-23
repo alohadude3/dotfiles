@@ -140,6 +140,25 @@ create_symlink "$HOME_DIR/.config/git" "$SCRIPT_DIR/.config/git"
 find "$SCRIPT_DIR/.config/git/hooks" -type f -exec chmod +x {} \;
 
 echo ""
+echo "Customizing macOS system settings..."
+
+# MacOS System settings
+defaults write -g AppleInterfaceStyle -string "Dark"
+defaults write -g KeyRepeat -int 2
+defaults write -g InitialKeyRepeat -int 15
+defaults write -g AppleShowAllExtensions -bool true
+defaults write -g com.apple.mouse.linear -bool true
+
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+defaults write com.apple.finder CreateDesktop -bool false
+defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
+defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+
+killall Dock >/dev/null 2>&1 || true
+killall Finder >/dev/null 2>&1 || true
+
+echo ""
 echo "================================"
 echo "Setup Complete!"
 echo "================================"
