@@ -179,6 +179,7 @@ if (-not (Test-Path $configDir)) {
 New-SymlinkSafe -Link "$homeDir\.config\ghostty" -Target "$dotfilesPath\.config\ghostty"
 New-SymlinkSafe -Link "$homeDir\.config\mise" -Target "$dotfilesPath\.config\mise"
 New-SymlinkSafe -Link "$homeDir\.config\nvim" -Target "$dotfilesPath\.config\nvim"
+New-SymlinkSafe -Link "$homeDir\.config\starship.toml" -Target "$dotfilesPath\.config\starship.toml"
 
 Write-Host ""
 Write-Host "Configuring Git..." -ForegroundColor Yellow

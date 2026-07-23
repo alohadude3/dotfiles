@@ -134,6 +134,7 @@ create_symlink "$HOME_DIR/.wezterm.lua" "$SCRIPT_DIR/.wezterm.lua"
 create_symlink "$HOME_DIR/.config/nvim" "$SCRIPT_DIR/.config/nvim"
 create_symlink "$HOME_DIR/.config/ghostty" "$SCRIPT_DIR/.config/ghostty"
 create_symlink "$HOME_DIR/.config/mise" "$SCRIPT_DIR/.config/mise"
+create_symlink "$HOME_DIR/.config/starship.toml" "$SCRIPT_DIR/.config/starship.toml"
 
 # Handle shell configs
 if [ -f "$SCRIPT_DIR/.bashrc" ]; then
