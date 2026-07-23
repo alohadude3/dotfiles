@@ -1,8 +1,6 @@
 [user]
     useConfigOnly = true
 [core]
-	eol = lf
-	autocrlf = input
 	hooksPath = ~/.config/git/hooks
 	excludesfile = ~/.config/git/ignore
 
