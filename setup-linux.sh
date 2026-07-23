@@ -128,7 +128,6 @@ create_symlink() {
 # Create symlinks
 create_symlink "$HOME_DIR/.vimrc" "$SCRIPT_DIR/.vimrc"
 create_symlink "$HOME_DIR/.ideavimrc" "$SCRIPT_DIR/.ideavimrc"
-create_symlink "$HOME_DIR/.ideavim" "$SCRIPT_DIR/.ideavim"
 create_symlink "$HOME_DIR/.inputrc" "$SCRIPT_DIR/.inputrc"
 create_symlink "$HOME_DIR/.wezterm.lua" "$SCRIPT_DIR/.wezterm.lua"
 create_symlink "$HOME_DIR/.config/nvim" "$SCRIPT_DIR/.config/nvim"
