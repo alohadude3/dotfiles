@@ -185,7 +185,7 @@ Write-Host "Configuring Git..." -ForegroundColor Yellow
 
 # Symlink git config
 New-SymlinkSafe -Link "$homeDir\.gitconfig" -Target "$dotfilesPath\.gitconfig"
-New-SymlinkSafe -Link "$homeDir\.config\git\hooks" -Target "$dotfilesPath\.config\git\hooks"
+New-SymlinkSafe -Link "$homeDir\.config\git" -Target "$dotfilesPath\.config\git"
 
 Write-Host ""
 Write-Host "Configuring PowerShell..." -ForegroundColor Yellow

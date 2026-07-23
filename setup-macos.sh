@@ -135,7 +135,7 @@ echo "Configuring Git..."
 
 # Symlink git config
 create_symlink "$HOME_DIR/.gitconfig" "$SCRIPT_DIR/.gitconfig"
-create_symlink "$HOME_DIR/.config/git/hooks" "$SCRIPT_DIR/.config/git/hooks"
+create_symlink "$HOME_DIR/.config/git" "$SCRIPT_DIR/.config/git"
 find "$SCRIPT_DIR/.config/git/hooks" -type f -exec chmod +x {} \;
 
 echo ""
