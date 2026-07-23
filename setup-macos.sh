@@ -13,11 +13,19 @@ echo "================================"
 echo ""
 
 # Check if Homebrew is installed
+brew_available=true
 if ! command -v brew &> /dev/null; then
     echo "Homebrew not found. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+        echo "Warning: Homebrew installation failed. Package installation will be skipped."
+        brew_available=false
+    }
 else
     echo "Homebrew is already installed."
+fi
+
+if ! command -v brew &> /dev/null; then
+    brew_available=false
 fi
 
 echo ""
@@ -54,25 +62,33 @@ casks=(
 )
 
 echo "Installing Homebrew formulae..."
-for package in "${formulae[@]}"; do
-    if brew list "$package" &>/dev/null; then
-        echo "  ✓ $package is already installed"
-    else
-        echo "  Installing $package..."
-        brew install "$package"
-    fi
-done
+if [ "$brew_available" = true ]; then
+    for package in "${formulae[@]}"; do
+        if brew list "$package" &>/dev/null; then
+            echo "  ✓ $package is already installed"
+        else
+            echo "  Installing $package..."
+            brew install "$package" || echo "  Warning: Failed to install $package"
+        fi
+    done
+else
+    echo "  Skipping formula installation because Homebrew is not available."
+fi
 
 echo ""
 echo "Installing Homebrew casks..."
-for cask in "${casks[@]}"; do
-    if brew list --cask "$cask" &>/dev/null; then
-        echo "  ✓ $cask is already installed"
-    else
-        echo "  Installing $cask..."
-        brew install --cask "$cask"
-    fi
-done
+if [ "$brew_available" = true ]; then
+    for cask in "${casks[@]}"; do
+        if brew list --cask "$cask" &>/dev/null; then
+            echo "  ✓ $cask is already installed"
+        else
+            echo "  Installing $cask..."
+            brew install --cask "$cask" || echo "  Warning: Failed to install $cask"
+        fi
+    done
+else
+    echo "  Skipping cask installation because Homebrew is not available."
+fi
 
 echo ""
 echo "Creating symlinks..."
@@ -119,6 +135,7 @@ echo "Configuring Git..."
 # Symlink git config
 create_symlink "$HOME_DIR/.gitconfig" "$SCRIPT_DIR/.gitconfig"
 create_symlink "$HOME_DIR/.config/git/hooks" "$SCRIPT_DIR/.config/git/hooks"
+find "$SCRIPT_DIR/.config/git/hooks" -type f -exec chmod +x {} \;
 
 echo ""
 echo "================================"
