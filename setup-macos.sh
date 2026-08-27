@@ -148,7 +148,7 @@ defaults write -g KeyRepeat -int 2
 defaults write -g InitialKeyRepeat -int 15
 defaults write -g AppleShowAllExtensions -bool true
 defaults write -g com.apple.mouse.linear -bool true
-
+defaults write -g AppleActionOnDoubleClick -string "Fill"
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
 defaults write com.apple.dock show-recents -bool false
