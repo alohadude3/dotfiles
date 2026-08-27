@@ -44,6 +44,7 @@ formulae=(
     "lsd"
     "mise"
     "neovim"
+    "pinentry-mac"
     "ripgrep"
     "scrcpy"
     "starship"
@@ -158,6 +159,9 @@ defaults write com.apple.dock show-recents -bool false
 defaults write -g com.apple.swipescrolldirection -bool false
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder CreateDesktop -bool false
+defaults write com.apple.finder ShowPathbar -bool true
+defaults write com.apple.finder ShowStatusBar -bool true
+defaults write com.apple.finder NewWindowTarget -string "PfDo"
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
 
