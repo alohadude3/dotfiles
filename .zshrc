@@ -2,6 +2,9 @@
 alias ls='lsd'
 alias ll='ls -la'
 
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 # Zoxide
 eval "$(zoxide init zsh)"
 
