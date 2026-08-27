@@ -151,6 +151,7 @@ defaults write -g com.apple.mouse.linear -bool true
 
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock autohide-delay -float 0
+defaults write com.apple.dock show-recents -bool false
 defaults write -g com.apple.swipescrolldirection -bool false
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder CreateDesktop -bool false
