@@ -33,6 +33,7 @@ echo "Installing required packages via Homebrew..."
 
 # Formulae to install
 formulae=(
+    "cliclick"
     "fd"
     "fzf"
     "ghidra"
