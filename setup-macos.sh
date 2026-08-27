@@ -56,6 +56,7 @@ casks=(
     "jetbrains-toolbox"
     "linearmouse"
     "logi-options+"
+    "microsoft-edge"
     "sublime-merge"
     "sublime-text"
     "zed"
@@ -149,6 +150,8 @@ defaults write -g AppleShowAllExtensions -bool true
 defaults write -g com.apple.mouse.linear -bool true
 
 defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -float 0
+defaults write -g com.apple.swipescrolldirection -bool false
 defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
 defaults write com.apple.finder CreateDesktop -bool false
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
