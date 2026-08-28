@@ -126,6 +126,7 @@ create_symlink "$HOME_DIR/.config/ghostty" "$SCRIPT_DIR/.config/ghostty"
 create_symlink "$HOME_DIR/.config/mise" "$SCRIPT_DIR/.config/mise"
 create_symlink "$HOME_DIR/.config/linearmouse" "$SCRIPT_DIR/.config/linearmouse"
 create_symlink "$HOME_DIR/.config/starship.toml" "$SCRIPT_DIR/.config/starship.toml"
+create_symlink "$HOME_DIR/.config/lazygit/config.yml" "$SCRIPT_DIR/.config/lazygit/config.yml"
 
 # Handle shell configs
 if [ -f "$SCRIPT_DIR/.bashrc" ]; then
@@ -165,6 +166,7 @@ defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder NewWindowTarget -string "PfDo"
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
+defaults write -g AppleFnKeyAction -int 0
 
 killall Dock >/dev/null 2>&1 || true
 killall Finder >/dev/null 2>&1 || true
