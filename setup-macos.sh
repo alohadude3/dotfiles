@@ -36,6 +36,7 @@ formulae=(
     "cliclick"
     "fd"
     "fzf"
+    "gh"
     "ghidra"
     "git"
     "gnupg"

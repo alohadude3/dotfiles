@@ -17,6 +17,7 @@ echo ""
 packages=(
     "fd"
     "fzf"
+    "gh"
     "ghostty"
     "git"
     "jq"

@@ -63,6 +63,7 @@ function Install-ScoopCLI {
     $cli_packages = @(
         "fd",
         "fzf",
+        "gh"
         "git",
         "gsudo",
         "jq",
