@@ -3,4 +3,5 @@ git:
   log:
     showWholeGraph: false
   diffRenderers:
-    - command: delta --dark --paging=never
+    - command: delta --dark --paging=never --line-numbers
+    - command: delta --dark --paging=never --line-numbers --side-by-side
