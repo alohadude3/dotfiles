@@ -2,3 +2,5 @@ git:
   overrideGpg: true
   log:
     showWholeGraph: false
+  diffRenderers:
+    - command: delta --dark --paging=never

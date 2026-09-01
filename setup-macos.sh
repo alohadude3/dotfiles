@@ -39,6 +39,7 @@ formulae=(
     "gh"
     "ghidra"
     "git"
+    "git-delta"
     "gnupg"
     "jadx"
     "jq"

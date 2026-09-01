@@ -61,6 +61,7 @@ function Install-ScoopCLI {
     Write-Host ""
     Write-Host "Installing CLI packages via Scoop..." -ForegroundColor Yellow
     $cli_packages = @(
+        "delta",
         "fd",
         "fzf",
         "gh"

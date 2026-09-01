@@ -20,6 +20,7 @@ packages=(
     "gh"
     "ghostty"
     "git"
+    "git-delta"
     "jq"
     "lazygit"
     "lsd"
