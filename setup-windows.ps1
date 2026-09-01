@@ -183,6 +183,7 @@ New-SymlinkSafe -Link "$homeDir\.config\mise" -Target "$dotfilesPath\.config\mis
 New-SymlinkSafe -Link "$homeDir\.config\nvim" -Target "$dotfilesPath\.config\nvim"
 New-SymlinkSafe -Link "$homeDir\.config\starship.toml" -Target "$dotfilesPath\.config\starship.toml"
 New-SymlinkSafe -Link "$homeDir\.config\lazygit\config.yml" -Target "$dotfilesPath\.config\lazygit\config.yml"
+New-SymlinkSafe -Link "$env:LOCALAPPDATA\lazygit\config.yml" -Target "$dotfilesPath\.config\lazygit\config.yml"
 
 Write-Host ""
 Write-Host "Configuring Git..." -ForegroundColor Yellow
