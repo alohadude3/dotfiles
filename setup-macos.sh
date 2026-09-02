@@ -168,7 +168,7 @@ defaults write com.apple.finder ShowStatusBar -bool true
 defaults write com.apple.finder NewWindowTarget -string "PfDo"
 defaults write com.apple.AppleMultitouchTrackpad Clicking -bool true
 defaults write com.apple.driver.AppleBluetoothMultitouch.trackpad Clicking -bool true
-defaults write -g AppleFnKeyAction -int 0
+defaults write -g com.apple.keyboard.fnState -bool true
 
 killall Dock >/dev/null 2>&1 || true
 killall Finder >/dev/null 2>&1 || true
