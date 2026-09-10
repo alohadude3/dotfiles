@@ -57,6 +57,8 @@ formulae=(
 
 # Casks to install (GUI applications)
 casks=(
+    "android-commandlineTools"
+    "android-platform-tools"
     "bitwarden"
     "ghostty"
     "google-chrome"
